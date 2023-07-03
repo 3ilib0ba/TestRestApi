@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-user
+      author: evonniy
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: username
+                  value: user_100
+              - column:
+                  name: password
+                  value: $2a$10$lGO1O4iu6K/.GoR2Nz4xzuEjRfCBV969YsN2/hVgrlahoTOVrgBg2
+              - column:
+                  name: role
+                  value: USER

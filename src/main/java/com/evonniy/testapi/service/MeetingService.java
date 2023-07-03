@@ -78,7 +78,6 @@ public class MeetingService {
                 signUpForMeetingDto.getPcr()
         );
 
-
         meeting.getParticipants().add(participant);
         return meetingMapper.toUserInMeetingDto(userInMeetingRepository.save(participant));
     }

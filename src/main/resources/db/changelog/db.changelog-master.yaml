@@ -6,4 +6,6 @@ databaseChangeLog: #параметр в котором находятся миг
   - include:
       file: db/changelog/changes/org-instance.yaml
   - include:
+      file: db/changelog/changes/user-instance.yaml
+  - include:
       file: db/changelog/changes/create-meeting-table.yaml
