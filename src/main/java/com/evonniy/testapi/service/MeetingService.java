@@ -44,13 +44,13 @@ public class MeetingService {
     }
 
     public MeetingInfoDto createMeet(CreateMeetingDto createMeetingDto) {
+        User organizator = userService.checkForOrganizatorAndGetIt();
         Date dateOf = createMeetingDto.getDate();
         String name = createMeetingDto.getName();
         long price = createMeetingDto.getPrice();
         if (!checkDateForFuture(dateOf)) {
             throw new MeetMustBeInFutureException();
         }
-        User organizator = userService.checkForOrganizatorAndGetIt();
 
         Meeting meeting = new Meeting(0, organizator, name, price, dateOf, List.of());
         return meetingMapper.toDto(meetingRepository.save(meeting));
