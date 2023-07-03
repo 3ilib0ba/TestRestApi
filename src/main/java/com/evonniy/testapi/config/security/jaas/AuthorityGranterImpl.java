@@ -26,7 +26,6 @@ public class AuthorityGranterImpl implements AuthorityGranter {
             return Collections.singleton(user.get().getRole().name());
         }
 
-        // TODO исправить на новую ошибку USER_CREDITIONS_ERROR
         throw new UserNotFoundException();
     }
 }
