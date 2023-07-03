@@ -3,7 +3,8 @@ package com.evonniy.testapi.service;
 import com.evonniy.testapi.exception.exceptions.UserAlreadyExistException;
 import com.evonniy.testapi.exception.exceptions.YouAreNotAuthorizedException;
 import com.evonniy.testapi.model.dto.MessageDto;
-import com.evonniy.testapi.model.dto.RegisterRequestDto;
+import com.evonniy.testapi.model.dto.RegisterOrganizatorDto;
+import com.evonniy.testapi.model.dto.RegisterUserDto;
 import com.evonniy.testapi.model.entity.User;
 import com.evonniy.testapi.model.enums.Role;
 import com.evonniy.testapi.repository.UserRepository;
@@ -13,7 +14,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -22,7 +22,7 @@ public class AuthenticationService {
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
 
-    public MessageDto register(RegisterRequestDto request) {
+    public MessageDto registerUser(RegisterUserDto request) {
         if (repository.findByUsername(request.getName()).isPresent()){
             throw new UserAlreadyExistException();
         }
@@ -34,7 +34,22 @@ public class AuthenticationService {
                 .build();
 
         repository.save(user);
-        return new MessageDto("Registered");
+        return new MessageDto("Registered new user");
+    }
+
+    public MessageDto registerOrganizator(RegisterOrganizatorDto request) {
+        if (repository.findByUsername(request.getName()).isPresent()){
+            throw new UserAlreadyExistException();
+        }
+
+        var user = User.builder()
+                .username(request.getName())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(Role.ORGANIZATOR)
+                .build();
+
+        repository.save(user);
+        return new MessageDto("Registered new organizator");
     }
 
     public User getAndCheckRealUser() {

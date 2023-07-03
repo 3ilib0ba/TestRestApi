@@ -1,8 +1,8 @@
 package com.evonniy.testapi.controller;
 
-import com.evonniy.testapi.model.dto.RegisterRequestDto;
+import com.evonniy.testapi.model.dto.RegisterOrganizatorDto;
+import com.evonniy.testapi.model.dto.RegisterUserDto;
 import com.evonniy.testapi.service.AuthenticationService;
-import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,11 +19,22 @@ public class AuthenticationController {
     @Autowired
     private AuthenticationService authService;
 
-    @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> register(
-            @Valid @RequestBody RegisterRequestDto request
+    @PostMapping(value = "/register/user",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> registerUser(
+            @Valid @RequestBody RegisterUserDto request
     ) {
-        return ResponseEntity.ok(authService.register(request));
+        return ResponseEntity.ok(authService.registerUser(request));
+    }
+
+    @PostMapping(value = "/register/organizator",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> registerOrganizator(
+            @Valid @RequestBody RegisterOrganizatorDto request
+    ) {
+        return ResponseEntity.ok(authService.registerOrganizator(request));
     }
 
 }

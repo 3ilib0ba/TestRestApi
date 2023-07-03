@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-org
+      author: evonniy
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: username
+                  value: org_20
+              - column:
+                  name: password
+                  value: $2y$10$opqNxUdui/7dBLOsAQU7fulHyCOzxzCfdYrE4FDXcJpW92I39qQ5e
+              - column:
+                  name: role
+                  value: ORGANIZATOR

@@ -1,0 +1,76 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-meetings-and-connect_with_user
+      author: evonniy
+      changes:
+        - createTable:
+            tableName: meetings
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: organizator_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: meeting_organizator_fk
+                    referencedTableName: users
+                    referencedColumnNames: id
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: price
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_of
+                  type: timestamp
+                  constraints:
+                    nullable: false
+
+        - createTable:
+            tableName: meetings_users_relation
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: meeting_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: meeting_fk
+                    referencedTableName: meetings
+                    referencedColumnNames: id
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: user_fk
+                    referencedTableName: users
+                    referencedColumnNames: id
+                    nullable: false
+              - column:
+                  name: fullname
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: age
+                  type: int
+              - column:
+                  name: pcr
+                  type: text

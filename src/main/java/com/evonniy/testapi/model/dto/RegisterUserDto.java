@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterRequestDto {
+public class RegisterUserDto {
     @JsonView
     @NotBlank(message = "Никнейм не должен быть пустым")
     @Size(min = 3, max = 50, message = "Слишком короткий или длинный никнейм")
