@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-documents-table
+      author: evonniy
+      changes:
+        - createTable:
+            tableName: documents
+            columns:
+              - column:
+                  name: org_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: document_organizator_fk
+                    referencedTableName: users
+                    referencedColumnNames: id
+                    primaryKey: true
+              - column:
+                  name: text
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_allowed
+                  type: boolean
+                  defaultValueBoolean: false

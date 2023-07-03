@@ -1,11 +1,15 @@
-databaseChangeLog: #параметр в котором находятся миграции
+databaseChangeLog:
+# создаем таблицы
   - include:
       file: db/changelog/changes/create-users-table.yaml
+  - include:
+      file: db/changelog/changes/create-meeting-table.yaml
+  - include:
+      file: db/changelog/changes/create-documents-table.yaml
+# первичное заполнение
   - include:
       file: db/changelog/changes/admin-instance.yaml
   - include:
       file: db/changelog/changes/org-instance.yaml
   - include:
       file: db/changelog/changes/user-instance.yaml
-  - include:
-      file: db/changelog/changes/create-meeting-table.yaml
