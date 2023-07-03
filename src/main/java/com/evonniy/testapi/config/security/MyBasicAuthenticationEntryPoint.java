@@ -13,7 +13,11 @@ import java.io.PrintWriter;
 public class MyBasicAuthenticationEntryPoint extends BasicAuthenticationEntryPoint {
 
     @Override
-    public void commence(final HttpServletRequest request, final HttpServletResponse response, final AuthenticationException authException) throws IOException {
+    public void commence(
+            final HttpServletRequest request,
+            final HttpServletResponse response,
+            final AuthenticationException authException
+    ) throws IOException {
         response.addHeader("WWW-Authenticate", "Basic realm=\"" + getRealmName() + "\"");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         final PrintWriter writer = response.getWriter();
@@ -22,7 +26,7 @@ public class MyBasicAuthenticationEntryPoint extends BasicAuthenticationEntryPoi
 
     @Override
     public void afterPropertiesSet() {
-        setRealmName("lab");
+        setRealmName("test api");
         super.afterPropertiesSet();
     }
 
