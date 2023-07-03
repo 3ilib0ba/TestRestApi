@@ -31,6 +31,13 @@ public class DocumentService {
         return documentMapper.toListDtoFromList(documentRepository.findAll());
     }
 
+    public DocumentDto signDocument(long documentId) {
+        User admin = userService.checkForAdminAndGetIt();
+        Document current = getDocumentById(documentId);
+        current.setSigned(true);
+        return documentMapper.toDto(documentRepository.save(current));
+    }
+
     public DocumentDto createDocument(String documentText) {
         User organizator = userService.checkForOrganizatorAndGetIt();
         if (checkDocumentById(organizator.getId())) {

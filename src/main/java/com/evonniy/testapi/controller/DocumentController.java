@@ -2,11 +2,9 @@ package com.evonniy.testapi.controller;
 
 import com.evonniy.testapi.service.DocumentService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
 @RestController
@@ -32,5 +30,12 @@ public class DocumentController {
             @RequestBody @NotBlank String documentText
     ) {
         return ResponseEntity.ok(documentService.createDocument(documentText));
+    }
+
+    @PostMapping(value = "/documents/admin/sign_document")
+    public ResponseEntity<?> signCurrentDocument(
+            @RequestParam @Min(1) long documentId
+    ) {
+        return ResponseEntity.ok(documentService.signDocument(documentId));
     }
 }

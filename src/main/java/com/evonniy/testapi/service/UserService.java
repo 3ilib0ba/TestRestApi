@@ -1,5 +1,6 @@
 package com.evonniy.testapi.service;
 
+import com.evonniy.testapi.exception.exceptions.YouAreNotAnAdminException;
 import com.evonniy.testapi.exception.exceptions.YouAreNotAnOrganizatorException;
 import com.evonniy.testapi.exception.exceptions.YouAreNotAnOrganizatorOrUserException;
 import com.evonniy.testapi.model.entity.User;
@@ -14,6 +15,14 @@ public class UserService {
             AuthenticationService authenticationService
     ) {
         this.authenticationService = authenticationService;
+    }
+
+    public User checkForAdminAndGetIt() {
+        User user = authenticationService.getAndCheckRealUser();
+        if (user.getRole() == Role.ADMIN) {
+            return user;
+        }
+        throw new YouAreNotAnAdminException();
     }
 
     public User checkForUserOrOrganizatorAndGetIt() {
