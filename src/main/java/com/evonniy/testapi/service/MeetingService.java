@@ -1,5 +1,6 @@
 package com.evonniy.testapi.service;
 
+import com.evonniy.testapi.exception.exceptions.DocumentIsNotSignedYetException;
 import com.evonniy.testapi.exception.exceptions.MeetMustBeInFutureException;
 import com.evonniy.testapi.exception.exceptions.MeetingNotFoundException;
 import com.evonniy.testapi.exception.exceptions.YouAreAlreadyAtSignedUpForMeetingException;
@@ -26,17 +27,20 @@ public class MeetingService {
     private final UserInMeetingRepository userInMeetingRepository;
     private final UserService userService;
     private final MeetingMapper meetingMapper;
+    private final DocumentService documentService;
 
     public MeetingService(
             MeetingRepository meetingRepository,
             UserInMeetingRepository userInMeetingRepository,
             UserService userService,
-            MeetingMapper meetingMapper
+            MeetingMapper meetingMapper,
+            DocumentService documentService
     ) {
         this.meetingRepository = meetingRepository;
         this.userInMeetingRepository = userInMeetingRepository;
         this.userService = userService;
         this.meetingMapper = meetingMapper;
+        this.documentService = documentService;
     }
 
     public List<MeetingInfoDto> getAll() {
@@ -45,6 +49,10 @@ public class MeetingService {
 
     public MeetingInfoDto createMeet(CreateMeetingDto createMeetingDto) {
         User organizator = userService.checkForOrganizatorAndGetIt();
+        if (!documentService.checkSignedForOrganizator(organizator)) {
+            throw new DocumentIsNotSignedYetException();
+        }
+
         Date dateOf = createMeetingDto.getDate();
         String name = createMeetingDto.getName();
         long price = createMeetingDto.getPrice();

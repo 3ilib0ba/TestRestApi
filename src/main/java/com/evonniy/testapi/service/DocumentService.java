@@ -49,15 +49,22 @@ public class DocumentService {
         return documentRepository.getDocumentById(documentId).isPresent();
     }
 
+    public boolean checkSignedForOrganizator(User organizator) {
+        return getDocumentById(organizator.getId()).isSigned();
+    }
+
     public DocumentDto getMyDocument() {
         User organizator = userService.checkForOrganizatorAndGetIt();
-        Optional<Document> isDocument = documentRepository.getDocumentById(organizator.getId());
+        Document document = getDocumentById(organizator.getId());
+        return documentMapper.toDto(document);
+    }
+
+    public Document getDocumentById(long documentId) {
+        Optional<Document> isDocument = documentRepository.getDocumentById(documentId);
         if (isDocument.isEmpty()) {
             throw new YouHaveNotDocumentException();
         }
-        Document document = isDocument.get();
-
-        return documentMapper.toDto(document);
+        return isDocument.get();
     }
 
 }

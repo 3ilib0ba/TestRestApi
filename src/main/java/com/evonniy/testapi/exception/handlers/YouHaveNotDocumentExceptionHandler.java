@@ -1,6 +1,5 @@
 package com.evonniy.testapi.exception.handlers;
 
-import com.evonniy.testapi.exception.exceptions.YouCantCreateAnotherDocumentException;
 import com.evonniy.testapi.exception.exceptions.YouHaveNotDocumentException;
 import com.evonniy.testapi.model.dto.MessageDto;
 import org.springframework.http.HttpStatus;
