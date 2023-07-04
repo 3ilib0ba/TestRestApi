@@ -25,20 +25,33 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // Enable CORS and disable CSRF
         http
                 .cors().and().csrf().disable()
                 .httpBasic(Customizer.withDefaults())
                 .exceptionHandling().authenticationEntryPoint(basicAuthenticationEntryPoint).and()
                 .authenticationProvider(jaasAuthenticationProvider)
                 .authorizeHttpRequests((authz) -> authz
-//                        .antMatchers("/comments/delete", "/recipes/recipe")
-//                        .hasAnyAuthority(Role.ADMIN.name())
-//
-//                        .antMatchers("/image", "/recipes/add", "/likes/setLike")
-//                        .hasAnyAuthority(Role.USER.name(), Role.ADMIN.name())
+                        .antMatchers(
+                                "/documents/get_all",
+                                "/documents/admin/sign_document"
+                        )
+                        .hasAnyAuthority(Role.ADMIN.name())
 
-                        .antMatchers("/**")
+                        .antMatchers(
+                                "/documents/get_my",
+                                "/documents/create",
+                                "/meetings/create"
+                        )
+                        .hasAnyAuthority(Role.ORGANIZATOR.name())
+
+                        .antMatchers(
+                                "/meetings/signUpForMeeting"
+                        )
+                        .hasAnyAuthority(Role.ORGANIZATOR.name(), Role.USER.name())
+
+                        .antMatchers(
+                                "/meetings/get_all",
+                                "/**")
                         .permitAll()
                 )
                 .sessionManagement()

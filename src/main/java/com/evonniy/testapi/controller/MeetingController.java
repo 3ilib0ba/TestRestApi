@@ -29,7 +29,7 @@ public class MeetingController {
         return ResponseEntity.ok(meetingService.createMeet(dateOfMeeting));
     }
 
-    @PostMapping(value = "meetings/signUpForMeeting")
+    @PostMapping(value = "/meetings/signUpForMeeting")
     public ResponseEntity<?> signUpForMeeting(
             @Valid @RequestBody SignUpForMeetingDto signUpForMeetingDto
     ) {
