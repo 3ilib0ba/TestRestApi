@@ -69,13 +69,9 @@ public class MeetingService {
         return now.before(date);
     }
 
-    public UserInMeetingDto signUpForMeeting(SignUpForMeetingDto signUpForMeetingDto) {
+    public UserInMeetingDto signUpForMeetingAndReturnDto(SignUpForMeetingDto signUpForMeetingDto) {
         User userParticipant = userService.checkForUserOrOrganizatorAndGetIt();
         Meeting meeting = getMeetingById(signUpForMeetingDto.getMeetingId());
-
-        if (isUserInMeeting(meeting, userParticipant)) {
-            throw new YouAreAlreadyAtSignedUpForMeetingException();
-        }
 
         UserInMeeting participant = new UserInMeeting(
                 0,
@@ -86,8 +82,18 @@ public class MeetingService {
                 signUpForMeetingDto.getPcr()
         );
 
-        meeting.getParticipants().add(participant);
-        return meetingMapper.toUserInMeetingDto(userInMeetingRepository.save(participant));
+        UserInMeeting result = signUpForMeeting(participant);
+        return meetingMapper.toUserInMeetingDto(result);
+    }
+
+    public UserInMeeting signUpForMeeting(UserInMeeting userInMeeting) {
+        Meeting meeting = userInMeeting.getMeeting();
+        if (isUserInMeeting(meeting, userInMeeting.getUser())) {
+            throw new YouAreAlreadyAtSignedUpForMeetingException();
+        }
+
+        meeting.getParticipants().add(userInMeeting);
+        return userInMeetingRepository.save(userInMeeting);
     }
 
     private Meeting getMeetingById(Long meetingId) {

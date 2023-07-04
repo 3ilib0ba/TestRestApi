@@ -33,7 +33,7 @@ public class MeetingController {
     public ResponseEntity<?> signUpForMeeting(
             @Valid @RequestBody SignUpForMeetingDto signUpForMeetingDto
     ) {
-        return ResponseEntity.ok(meetingService.signUpForMeeting(signUpForMeetingDto));
+        return ResponseEntity.ok(meetingService.signUpForMeetingAndReturnDto(signUpForMeetingDto));
     }
 
 }
