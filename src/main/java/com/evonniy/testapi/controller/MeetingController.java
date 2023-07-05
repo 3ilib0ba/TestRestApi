@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
 @RestController
 public class MeetingController {
@@ -26,7 +25,7 @@ public class MeetingController {
     public ResponseEntity<?> createMeeting(
             @Valid @RequestBody CreateMeetingDto dateOfMeeting
     ) {
-        return ResponseEntity.ok(meetingService.createMeet(dateOfMeeting));
+        return ResponseEntity.ok(meetingService.createMeetingAndReturnDto(dateOfMeeting));
     }
 
     @PostMapping(value = "/meetings/signUpForMeeting")

@@ -47,7 +47,7 @@ public class MeetingService {
         return meetingMapper.toDtoFromList(meetingRepository.findAll());
     }
 
-    public MeetingInfoDto createMeet(CreateMeetingDto createMeetingDto) {
+    public MeetingInfoDto createMeetingAndReturnDto(CreateMeetingDto createMeetingDto) {
         User organizator = userService.checkForOrganizatorAndGetIt();
         if (!documentService.checkSignedForOrganizator(organizator)) {
             throw new DocumentIsNotSignedYetException();
