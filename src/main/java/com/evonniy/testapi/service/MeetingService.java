@@ -25,20 +25,17 @@ public class MeetingService {
     private final MeetingRepository meetingRepository;
     private final UserInMeetingRepository userInMeetingRepository;
     private final UserService userService;
-    private final MeetingMapper meetingMapper;
     private final DocumentService documentService;
 
     public MeetingService(
             MeetingRepository meetingRepository,
             UserInMeetingRepository userInMeetingRepository,
             UserService userService,
-            MeetingMapper meetingMapper,
             DocumentService documentService
     ) {
         this.meetingRepository = meetingRepository;
         this.userInMeetingRepository = userInMeetingRepository;
         this.userService = userService;
-        this.meetingMapper = meetingMapper;
         this.documentService = documentService;
     }
 
