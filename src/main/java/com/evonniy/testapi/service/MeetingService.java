@@ -7,7 +7,6 @@ import com.evonniy.testapi.exception.exceptions.YouAreAlreadyAtSignedUpForMeetin
 import com.evonniy.testapi.model.dto.CreateMeetingDto;
 import com.evonniy.testapi.model.dto.MeetingInfoDto;
 import com.evonniy.testapi.model.dto.SignUpForMeetingDto;
-import com.evonniy.testapi.model.dto.UserInMeetingDto;
 import com.evonniy.testapi.model.entity.Meeting;
 import com.evonniy.testapi.model.entity.User;
 import com.evonniy.testapi.model.entity.UserInMeeting;
@@ -43,11 +42,11 @@ public class MeetingService {
         this.documentService = documentService;
     }
 
-    public List<MeetingInfoDto> getAll() {
-        return meetingMapper.toDtoFromList(meetingRepository.findAll());
+    public List<Meeting> getAll() {
+        return meetingRepository.findAll();
     }
 
-    public MeetingInfoDto createMeetingAndReturnDto(CreateMeetingDto createMeetingDto) {
+    public Meeting createMeeting(CreateMeetingDto createMeetingDto) {
         User organizator = userService.checkForOrganizatorAndGetIt();
         if (!documentService.checkSignedForOrganizator(organizator)) {
             throw new DocumentIsNotSignedYetException();
@@ -61,7 +60,7 @@ public class MeetingService {
         }
 
         Meeting meeting = new Meeting(0, organizator, name, price, dateOf, List.of());
-        return meetingMapper.toDto(meetingRepository.save(meeting));
+        return meetingRepository.save(meeting);
     }
 
     private boolean checkDateForFuture(Date date) {
@@ -69,11 +68,16 @@ public class MeetingService {
         return now.before(date);
     }
 
-    public UserInMeetingDto signUpForMeetingAndReturnDto(SignUpForMeetingDto signUpForMeetingDto) {
+    public UserInMeeting signUpForMeeting(SignUpForMeetingDto signUpForMeetingDto) {
+        UserInMeeting participant = findUserInMeetingForSignUp(signUpForMeetingDto);
+        return signUpUserForMeeting(participant);
+    }
+
+    public UserInMeeting findUserInMeetingForSignUp(SignUpForMeetingDto signUpForMeetingDto) {
         User userParticipant = userService.checkForUserOrOrganizatorAndGetIt();
         Meeting meeting = getMeetingById(signUpForMeetingDto.getMeetingId());
 
-        UserInMeeting participant = new UserInMeeting(
+        return new UserInMeeting(
                 0,
                 meeting,
                 userParticipant,
@@ -81,12 +85,9 @@ public class MeetingService {
                 signUpForMeetingDto.getAge(),
                 signUpForMeetingDto.getPcr()
         );
-
-        UserInMeeting result = signUpForMeeting(participant);
-        return meetingMapper.toUserInMeetingDto(result);
     }
 
-    public UserInMeeting signUpForMeeting(UserInMeeting userInMeeting) {
+    public UserInMeeting signUpUserForMeeting(UserInMeeting userInMeeting) {
         Meeting meeting = userInMeeting.getMeeting();
         if (isUserInMeeting(meeting, userInMeeting.getUser())) {
             throw new YouAreAlreadyAtSignedUpForMeetingException();
