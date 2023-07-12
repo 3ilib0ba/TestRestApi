@@ -60,7 +60,7 @@ public class MeetingService {
         return meetingRepository.save(meeting);
     }
 
-    private boolean checkDateForFuture(Date date) {
+    public boolean checkDateForFuture(Date date) {
         Date now = new Date();
         return now.before(date);
     }
@@ -94,7 +94,7 @@ public class MeetingService {
         return userInMeetingRepository.save(userInMeeting);
     }
 
-    private Meeting getMeetingById(Long meetingId) {
+    public Meeting getMeetingById(Long meetingId) {
         Optional<Meeting> isMeeting = meetingRepository.findById(meetingId);
         if (isMeeting.isEmpty()) {
             throw new MeetingNotFoundException();
@@ -102,7 +102,7 @@ public class MeetingService {
         return isMeeting.get();
     }
 
-    private boolean isUserInMeeting(Meeting meeting, User user) {
+    public boolean isUserInMeeting(Meeting meeting, User user) {
         List<User> userParticipants = meeting.getParticipants().stream()
                 .map(UserInMeeting::getUser)
                 .toList();
